@@ -1,55 +1,1 @@
-package com.bloger.blog.controller;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-/* MVC: MODEL VIEW CONTROLLER */
-@Controller
-public class MyController {
-
-    @GetMapping("loghere") /* it is url text link */
-    public String put_log(Model model) {
-        model.addAttribute("data", "message");
-        model.addAttribute("data2", "message2");
-        /*return templates.somefile.html */
-        return "mylog";
-    }
-
-    @GetMapping("log-mvc")
-    public String logMvc(@RequestParam("name") String name, Model model) {
-        model.addAttribute("name", name);
-        return "hello-template";
-    }
-
-    @GetMapping("hello-string")
-    @ResponseBody
-    public String hellostring(@RequestParam("name") String name) {
-        return "hello " + name;
-    }
-
-    @GetMapping("hello-api")
-    @ResponseBody
-    public Hello helloApi(@RequestParam(value = "name", required = false)  String name) {
-        Hello hello = new Hello();
-        hello.setName(name);
-        return hello;
-    }
-
-    static class Hello {
-        private String name;
-
-        public String getName() {
-            return this.name;
-        }
-
-        public void setName(String name) {
-            this.name = "prefix-" + name;
-        }
-    }
-
-}
+package com.bloger.blog.controller;import org.springframework.stereotype.Controller;import org.springframework.ui.Model;import org.springframework.web.bind.annotation.GetMapping;import org.springframework.web.bind.annotation.RequestMapping;import org.springframework.web.bind.annotation.RequestParam;import org.springframework.web.bind.annotation.ResponseBody;/* MVC: MODEL VIEW CONTROLLER */@Controllerpublic class MyController {    @GetMapping("loghere") /* it is url text link */    public String put_log(Model model) {        model.addAttribute("data", "message");        model.addAttribute("data2", "message2");        /*return templates.somefile.html */        return "mylog";    }    @GetMapping("log-mvc")    public String logMvc(@RequestParam("name") String name, Model model) {        model.addAttribute("name", name);        return "hello-template";    }    @GetMapping("hello-string")    @ResponseBody    public String hellostring(@RequestParam("name") String name) {        return "hello " + name;    }    @GetMapping("hello-api")    @ResponseBody    public Hello helloApi(@RequestParam(value = "name", required = false)  String name) {        Hello hello = new Hello();        hello.setName(name);        return hello;    }    static class Hello {        private String name;        public String getName() {            return this.name;        }        public void setName(String name) {            this.name = "prefix-" + name;        }    }}
