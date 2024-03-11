@@ -18,6 +18,9 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 추후 spy 삭제 필요
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
     implementation 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
 //    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
