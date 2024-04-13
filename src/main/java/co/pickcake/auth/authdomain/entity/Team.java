@@ -1,4 +1,4 @@
-package com.bloger.blog.authdomain.entity;
+package co.pickcake.auth.authdomain.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package com.bloger.blog.authdomain.entity;
+package co.pickcake.auth.authdomain.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -36,11 +36,14 @@ public class Member {
         team.getMembers().add(this);
     }
 
+
     public static Member create(String email, String name) {
         Member member = new Member();
         member.email = email;
         member.name = name;
         return member;
     }
+
+
 
 }

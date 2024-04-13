@@ -1,10 +1,10 @@
-package com.bloger.blog;
+package co.pickcake.auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BlogApplicationTests {
+class PickCakeAuthApplicationTest {
 
     @Test
     void contextLoads() {
