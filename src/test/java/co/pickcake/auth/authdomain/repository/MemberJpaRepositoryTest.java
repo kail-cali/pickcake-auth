@@ -1,33 +1,34 @@
 package co.pickcake.auth.authdomain.repository;
 
-import co.pickcake.auth.authdomain.entity.Team;
-import co.pickcake.auth.authdomain.dto.MemberDto;
+
 import co.pickcake.auth.authdomain.entity.Member;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
 
 
 @SpringBootTest
+@Transactional
 class MemberJpaRepositoryTest {
 
     @Autowired
     private MemberJpaRepository memberRepository;
 
-    @Autowired
-    private TeamJpaRepository teamRepository;
+    @PersistenceContext EntityManager em;
 
     @Test
     void testGeneric() {
         //given
-//        Team teamA = new Team("teamA");
-
-        Member member = new Member("cc@gmail.com", "hail", 10, null);
-        memberRepository.save(member);
+        Member member1 = Member.create("test1@gmail.com", "test-hail", "test-password");
+        memberRepository.save(member1);
 
         //when
         List<Member> byEmailAndAgeGreaterThan = memberRepository.findByEmailAndAgeGreaterThan("cc@gmail.com", 5);
@@ -39,10 +40,10 @@ class MemberJpaRepositoryTest {
     @Test
     void testFindUser() {
         //given
-        Member member = new Member("cc@gmail.com", "hail", 10, null);
+        Member member = Member.create("test1@gmail.com", "test-hail", "test-password", 10);
         memberRepository.save(member);
         //when
-        List<Member> user = memberRepository.findUser("hail", 10);
+        List<Member> user = memberRepository.findUser("test-hail", 10);
         //then
         Assertions.assertThat(user.getFirst().getId()).isEqualTo(member.getId());
     }
@@ -51,8 +52,9 @@ class MemberJpaRepositoryTest {
     @Test
     void testFindUserNameList() {
         //given
-        Member member1 = new Member("cc@gmail.com", "hail", 10, null);
-        Member member2 = new Member("cccc@gmail.com", "cali", 30, null);
+
+        Member member1 = Member.create("test1@gmail.com", "test-hail", "test-password", 10);
+        Member member2 = Member.create("test2@gmail.com", "test-hail2", "test-password", 30);
         memberRepository.save(member1);
         memberRepository.save(member2);
         //when
@@ -62,54 +64,34 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
-    void testMemberByString() {
-        //given
-        Team team = new Team("teamA");
-        teamRepository.save(team);
-        Member member1 = new Member("cc@gmail.com", "hail", 10, null);
-        Member member2 = new Member("cccc@gmail.com", "cali", 30, null);
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-        member1.changeTeam(team);
-        member2.changeTeam(team);
-
-        //when
-//        List<MemberDto> memberDto = memberRepository.findMemberDto();
-        List<String > memberDto = memberRepository.findUserNameList();
-        //then
-        memberDto.forEach(System.out::println);
-    }
-
-    @Test
-    void testMemberDtoList() {
-        //given
-        Team team = new Team("teamA");
-        teamRepository.save(team);
-        Member member1 = new Member("cc@gmail.com", "hail", 10, team);
-        Member member2 = new Member("cccc@gmail.com", "cali", 30, team);
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-        //when
-        List<MemberDto> memberDto = memberRepository.findMemberDto();
-        //then
-        memberDto.forEach(System.out::println);
-    }
-
-    @Test
     void testFindByNames() {
         //given
-        Team team = new Team("teamA");
-        teamRepository.save(team);
-        Member member1 = new Member("cc@gmail.com", "hail", 10, team);
-        Member member2 = new Member("cccc@gmail.com", "cali", 30, team);
+        Member member1 = Member.create("test1@gmail.com", "test-hail", "test-password", 10);
+        Member member2 = Member.create("test2@gmail.com", "test-hail2", "test-password", 30);
         memberRepository.save(member1);
         memberRepository.save(member2);
         //when
-        List<Member> byNames = memberRepository.findByNames(Arrays.asList("hail", "Cail", "cail"));
+        List<Member> byNames = memberRepository.findByUsernames(Arrays.asList("hail", "Cail", "cail"));
         //then
         byNames.forEach(System.out::println);
     }
 
+    @Test
+    @DisplayName("벌크 쿼리 ")
+    void testBulkQuery() {
+        //given
+        Member member1 = Member.create("test1@gmail.com", "test-hail", "test-password", 20);
+        Member member2 = Member.create("test2@gmail.com", "test-hail2", "test-password", 25);
+        Member member3 = Member.create("test3@gmail.com", "test-hail3", "test-password", 22);
+        Member member4 = Member.create("test4@gmail.com", "test-hail4", "test-password", 19);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+        memberRepository.save(member4);
+        //when
+        int result = memberRepository.bulkAgePlus(20);
+        //then
+        Assertions.assertThat(result).isEqualTo(3);
+    }
 
 }

@@ -3,6 +3,18 @@ spring:
     activate:
       on-profile: local
 
+  profiles:
+    include: oauth
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: GOOGLE.API.OAUTH2.ID.KEY
+            client-secret: GOOGLE.API.OAUTH2.SECRET.KEY
+            scope: profile, email
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:tcp://localhost/~/blog
@@ -21,4 +33,5 @@ logging:
   level:
     org.hibernate.SQL: debug
 #    org.hibernate.type: trace
+
 

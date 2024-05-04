@@ -1,14 +1,13 @@
 package co.pickcake.auth.authdomain.entity;
 
+import co.pickcake.auth.common.Address;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "member")
 @ToString(of = {"id", "email", "age" })
 public class Member {
 
@@ -16,34 +15,48 @@ public class Member {
     @Column(name ="member_id")
     private Long id;
     private String email;
-    private String name;
+    private String username;
+    private String password;
+
     private int age;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="team_id")
-    private Team team;
+    @Column(name="PROVIDER_TYPE", length=20)
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
 
-    public Member(String  email, String  name, int age, Team team) {
-        this.email = email;
-        this.name  = name;
-        this.age = age;
-        if (team != null) {
-            changeTeam(team);
-        }
-    }
-    public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this);
-    }
+    @Embedded
+    private Address address;
 
 
     public static Member create(String email, String name) {
         Member member = new Member();
         member.email = email;
-        member.name = name;
+        member.username = name;
         return member;
     }
 
+    public static Member create(String email, String name, String password) {
+        Member member = new Member();
+        member.email = email;
+        member.username = name;
+        member.password = password;
+        return member;
+    }
+
+    public static Member create(String email, String name, String password, int age) {
+        Member member = new Member();
+        member.email = email;
+        member.username = name;
+        member.age = age;
+        member.password = password;
+        return member;
+    }
+
+    public Member update(String username, String email) {
+        this.username = username;
+        this.email = email;
+        return this;
+    }
 
 
 }
