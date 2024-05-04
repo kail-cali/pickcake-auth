@@ -13,6 +13,21 @@ public class Address {
     private String street;
     private String zipcode;
 
+    @Override
+    public String toString() {
+        return city + " " + street + " " + zipcode;
+    }
+    public String toSimpleString() {
+        return city + " " + street;
+    }
+
+    public static Address createAddress(String city, String street, String zipcode) {
+        Address address = new Address();
+        address.city = city;
+        address.street = street;
+        address.zipcode = zipcode;
+        return address;
+    }
 
 
 }

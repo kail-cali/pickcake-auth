@@ -2,6 +2,7 @@ package co.pickcake.auth.authdomain.entity;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,31 +17,22 @@ class MemberTest {
     private EntityManager em;
 
     @Test
-    @DisplayName("유저 엔티티 jpa 테스트")
+    @DisplayName("데이터 검증")
     @Transactional
     public void testEntity() {
         //given
-        Team teamA = new Team("TeamA");
-        Team teamB = new Team("TeamB");
-        em.persist(teamA);
-        em.persist(teamB);
-        Member memberA = new Member("hail1@gamil.com", "hail1", 20,teamA);
-        Member memberB = new Member("hail2@gamil.com", "hail2",20 ,teamA);
-        Member memberC = new Member("hail3@gamil.com", "hail3", 25,teamB);
+        Member member1 = Member.create("test1@gmail.com", "test-hail", "test-password", 10);
+        Member member2 = Member.create("test2@gmail.com", "test-hail2", "test-password", 30);
+
 
         //when
-        em.persist(memberA);
-        em.persist(memberB);
-        em.persist(memberC);
+        em.persist(member1);
+        em.persist(member2);
         em.flush();
         em.clear();
         //then
          List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
-
-         for ( Member member : members) {
-             System.out.println("member = " + member);
-             System.out.println("member.getTeam() = " + member.getTeam());
-         }
+         Assertions.assertThat(members.size()).isEqualTo(2);
 
     }
 
