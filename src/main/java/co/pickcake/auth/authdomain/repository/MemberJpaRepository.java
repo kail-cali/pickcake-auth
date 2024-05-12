@@ -30,7 +30,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
     Slice<Member> findByUsernames(@Param("names") Collection<String> names, Pageable pageable);
 
 
-    Optional<Member> findByEmailAndProvider(String email, ProviderType provider);
+    Optional<Member> findByEmailAndProviderType(String email, ProviderType provider);
 
     @Modifying(clearAutomatically = true)
     @Query("update Member m set m.age = m.age + 1 where m.age >= :age")
