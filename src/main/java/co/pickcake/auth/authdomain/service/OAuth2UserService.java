@@ -13,13 +13,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OAuth2UserService extends DefaultOAuth2UserService {
 
-    /* OAuth2UserInfo 관련 중요 로직을 Factory 에서 처리*/
+    /* 현 버전에서는 SocialAuthService 호출 */
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-
         return oAuth2UserInfoFactory.build(userRequest, oAuth2User);
     }
 
