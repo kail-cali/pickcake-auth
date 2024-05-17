@@ -5,6 +5,13 @@ import co.pickcake.auth.authdomain.entity.ProviderType;
 import java.util.Map;
 
 public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
+
+    private final String email;
+
+    public GoogleOAuth2UserInfo(String email) {
+        this.email = email;
+    }
+
     @Override
     public ProviderType getProvider() {
         return ProviderType.GOOGLE;
@@ -13,11 +20,6 @@ public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
     @Override
     public String getAccessToken() {
         return "";
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return Map.of();
     }
 
     @Override
@@ -32,7 +34,7 @@ public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
 
     @Override
     public String getEmail() {
-        return "";
+        return this.email;
     }
 
     @Override
