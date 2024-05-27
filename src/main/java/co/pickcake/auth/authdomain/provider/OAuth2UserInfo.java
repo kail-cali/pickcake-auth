@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface OAuth2UserInfo {
 
-    ProviderType getProvider();
+    Map<String, Object> getAttributes();
 
     String getAccessToken();
 

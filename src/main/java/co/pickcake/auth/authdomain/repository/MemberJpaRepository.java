@@ -15,6 +15,8 @@ import java.util.Optional;
 
 public interface MemberJpaRepository extends JpaRepository<Member, Long> {
 
+    Optional<Member> findByEmail(String email);
+
     List<Member> findByEmailAndAgeGreaterThan(String email, int age);
 
     @Query("select m from Member m where m.username =:username and m.age = :age")

@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HomeController {
+public class OAuthAPI {
 
     @GetMapping("/")
     public String home() {
         return "test";
     }
 
-    @GetMapping("/oath2/login")
+    @GetMapping("/oauth2/login")
     public String get(@AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
 
