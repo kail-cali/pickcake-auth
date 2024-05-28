@@ -15,6 +15,8 @@ import java.util.Optional;
 
 public interface MemberJpaRepository extends JpaRepository<Member, Long> {
 
+    Optional<Member> findByEmail(String email);
+
     List<Member> findByEmailAndAgeGreaterThan(String email, int age);
 
     @Query("select m from Member m where m.username =:username and m.age = :age")
@@ -30,7 +32,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, Long> {
     Slice<Member> findByUsernames(@Param("names") Collection<String> names, Pageable pageable);
 
 
-    Optional<Member> findByEmailAndProvider(String email, ProviderType provider);
+    Optional<Member> findByEmailAndProviderType(String email, ProviderType provider);
 
     @Modifying(clearAutomatically = true)
     @Query("update Member m set m.age = m.age + 1 where m.age >= :age")

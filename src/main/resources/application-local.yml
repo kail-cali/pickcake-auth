@@ -3,9 +3,6 @@ spring:
     activate:
       on-profile: local
 
-  profiles:
-    include: oauth
-
   security:
     oauth2:
       client:
