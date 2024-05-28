@@ -28,6 +28,9 @@ public class Member {
     private Address address;
 
 
+
+
+
     public static Member create(String email, String name) {
         Member member = new Member();
         member.email = email;

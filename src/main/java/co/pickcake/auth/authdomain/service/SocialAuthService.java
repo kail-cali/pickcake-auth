@@ -16,14 +16,21 @@ import java.util.Map;
 @Component
 public class SocialAuthService implements OAuth2UserInfoFactory {
 
+
+
     @Override
     public OAuth2User build(OAuth2UserRequest userRequest, OAuth2User user) {
         OAuth2UserInfo userInfo = null;
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         /* */
         if (registrationId.equals(ProviderType.GOOGLE.toString().toLowerCase())) {
-
+            userInfo = GoogleOAuth2UserInfo.builder()
+                    .email(user.getAttribute("email"))
+                    .accessToken(userRequest.getAccessToken())
+                    .attributes(user.getAttributes())
+                    .build();
         }
+
         if (userInfo == null) {
             throw new NotImplementedRegistrationError(registrationId);
         }

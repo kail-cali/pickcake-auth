@@ -3,27 +3,25 @@ package co.pickcake.auth.authdomain.provider;
 import co.pickcake.auth.authdomain.entity.ProviderType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Builder;
+import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 
 import java.util.Map;
 
 public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
 
     private final String email;
-    private final String accessToken;
-    private final String name;
-    private final String profileImageUrl;
-    private final String id;
+    private final AbstractOAuth2Token accessToken;
+    private final Map<String, Object> attributes;
 
     @Enumerated(EnumType.STRING)
     private final ProviderType providerType;
 
-
-    public GoogleOAuth2UserInfo(String email, String accessToken, String name, String profileImageUrl, String id, ProviderType providerType) {
+    @Builder
+    public GoogleOAuth2UserInfo(String email, AbstractOAuth2Token accessToken, String name, String profileImageUrl, String id, Map<String, Object> attributes, ProviderType providerType) {
         this.email = email;
         this.accessToken = accessToken;
-        this.name = name;
-        this.profileImageUrl = profileImageUrl;
-        this.id = id;
+        this.attributes = attributes;
         this.providerType = providerType;
     }
 
@@ -33,18 +31,18 @@ public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String getAccessToken() {
+    public AbstractOAuth2Token getAccessToken() {
         return accessToken;
     }
 
     @Override
     public String getId() {
-        return id;
+        return null;
     }
 
     @Override
     public String getName() {
-        return name;
+        return null;
     }
 
     @Override
@@ -54,6 +52,6 @@ public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
 
     @Override
     public String getProfiles() {
-        return profileImageUrl;
+        return null;
     }
 }
